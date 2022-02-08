@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,17 +20,25 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lFs-A7-FaE">
-                                <rect key="frame" x="16" y="680" width="382" height="200"/>
+                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZWu-NZ-IPD">
+                                <rect key="frame" x="47" y="540" width="320" height="216"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="gZK-Ve-9Zw" id="FDf-Pd-vdP"/>
+                                    <outlet property="delegate" destination="gZK-Ve-9Zw" id="s1g-KW-Hdu"/>
+                                </connections>
+                            </pickerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lFs-A7-FaE">
+                                <rect key="frame" x="16" y="760" width="382" height="120"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="8Qf-fO-sKC">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="200"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="120"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNK-JQ-shT">
-                                                <rect key="frame" x="0.0" y="0.0" width="382" height="100"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="382" height="60"/>
                                                 <subviews>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="uSp-Od-4EM">
-                                                        <rect key="frame" x="18" y="35" width="346" height="31"/>
+                                                        <rect key="frame" x="18" y="27" width="346" height="31"/>
                                                     </slider>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1v-da-TMC">
                                                         <rect key="frame" x="91" y="8" width="200" height="20.5"/>
@@ -44,25 +53,24 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstItem="Z1v-da-TMC" firstAttribute="centerX" secondItem="ZNK-JQ-shT" secondAttribute="centerX" id="0ia-w5-Lxv"/>
-                                                    <constraint firstItem="uSp-Od-4EM" firstAttribute="centerY" secondItem="ZNK-JQ-shT" secondAttribute="centerY" id="B2w-Sb-Pgq"/>
+                                                    <constraint firstItem="uSp-Od-4EM" firstAttribute="width" secondItem="ZNK-JQ-shT" secondAttribute="width" multiplier="0.895288" id="1rV-gX-gjm"/>
+                                                    <constraint firstItem="uSp-Od-4EM" firstAttribute="centerY" secondItem="ZNK-JQ-shT" secondAttribute="centerY" multiplier="1.4" id="B2w-Sb-Pgq"/>
                                                     <constraint firstItem="Z1v-da-TMC" firstAttribute="top" secondItem="ZNK-JQ-shT" secondAttribute="top" constant="8" id="Rcg-ww-Toa"/>
-                                                    <constraint firstItem="uSp-Od-4EM" firstAttribute="centerY" secondItem="ZNK-JQ-shT" secondAttribute="centerY" id="aie-bN-Wbp"/>
                                                     <constraint firstItem="uSp-Od-4EM" firstAttribute="centerX" secondItem="ZNK-JQ-shT" secondAttribute="centerX" id="c1R-ZS-NyQ"/>
-                                                    <constraint firstAttribute="trailing" secondItem="uSp-Od-4EM" secondAttribute="trailing" constant="20" id="qBU-bA-BVB"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="esc-nM-fOj">
-                                                <rect key="frame" x="0.0" y="100" width="382" height="100"/>
+                                                <rect key="frame" x="0.0" y="60" width="382" height="60"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QeY-hp-QRA">
-                                                        <rect key="frame" x="0.0" y="0.0" width="127.5" height="100"/>
-                                                        <state key="normal" title="audio"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="127.5" height="60"/>
+                                                        <state key="normal" title="Audio"/>
                                                         <connections>
                                                             <action selector="audioButtonWithSender:" destination="gZK-Ve-9Zw" eventType="touchUpInside" id="N1G-AG-KSn"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wg9-8p-HZf">
-                                                        <rect key="frame" x="127.5" y="0.0" width="127" height="100"/>
+                                                        <rect key="frame" x="127.5" y="0.0" width="127" height="60"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                         <state key="normal" title="Play"/>
                                                         <state key="selected" title="Stop"/>
@@ -71,8 +79,8 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fs8-Yt-IdZ">
-                                                        <rect key="frame" x="254.5" y="0.0" width="127.5" height="100"/>
-                                                        <state key="normal" title="subtitle"/>
+                                                        <rect key="frame" x="254.5" y="0.0" width="127.5" height="60"/>
+                                                        <state key="normal" title="Subtitle"/>
                                                         <connections>
                                                             <action selector="subtitleButtonWithSender:" destination="gZK-Ve-9Zw" eventType="touchUpInside" id="Tgy-cq-hY8"/>
                                                         </connections>
@@ -89,30 +97,33 @@
                                         </constraints>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="8Qf-fO-sKC" secondAttribute="trailing" id="06k-Wx-Xlf"/>
-                                    <constraint firstAttribute="height" constant="200" id="7id-H9-YnV"/>
+                                    <constraint firstAttribute="height" constant="120" id="7id-H9-YnV"/>
                                     <constraint firstAttribute="bottom" secondItem="8Qf-fO-sKC" secondAttribute="bottom" id="Bbd-cI-1M6"/>
                                     <constraint firstItem="8Qf-fO-sKC" firstAttribute="leading" secondItem="lFs-A7-FaE" secondAttribute="leading" id="EhY-SE-4kY"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="kaJ-BR-ysM"/>
                                     <constraint firstItem="8Qf-fO-sKC" firstAttribute="top" secondItem="lFs-A7-FaE" secondAttribute="top" id="tep-MK-GZD"/>
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="LGs-cl-1fm"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Yoo-yP-FiG" firstAttribute="top" secondItem="yyC-bA-cGL" secondAttribute="topMargin" id="Opg-V4-B4R"/>
                             <constraint firstItem="Yoo-yP-FiG" firstAttribute="leading" secondItem="yyC-bA-cGL" secondAttribute="leadingMargin" id="Oqm-dg-n3E"/>
                             <constraint firstItem="lFs-A7-FaE" firstAttribute="leading" secondItem="yyC-bA-cGL" secondAttribute="leading" constant="16" id="SDV-j3-Fiw"/>
+                            <constraint firstItem="lFs-A7-FaE" firstAttribute="top" secondItem="ZWu-NZ-IPD" secondAttribute="bottom" constant="4" id="aHU-9k-Rl5"/>
                             <constraint firstAttribute="bottom" secondItem="Yoo-yP-FiG" secondAttribute="bottom" id="cQE-KD-yyz"/>
                             <constraint firstAttribute="bottom" secondItem="lFs-A7-FaE" secondAttribute="bottom" constant="16" id="eeK-GV-0yI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Yoo-yP-FiG" secondAttribute="trailing" id="nY2-n7-Ow1"/>
+                            <constraint firstItem="ZWu-NZ-IPD" firstAttribute="centerX" secondItem="yyC-bA-cGL" secondAttribute="centerX" id="p0s-pQ-zEI"/>
                             <constraint firstAttribute="trailing" secondItem="lFs-A7-FaE" secondAttribute="trailing" constant="16" id="z3a-A1-uPr"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="audioButton" destination="QeY-hp-QRA" id="tv8-NL-4pp"/>
+                        <outlet property="pickerView" destination="ZWu-NZ-IPD" id="S1G-JL-9x4"/>
                         <outlet property="playButton" destination="wg9-8p-HZf" id="fOW-iK-dbn"/>
                         <outlet property="playerView" destination="Yoo-yP-FiG" id="hV7-zf-hIO"/>
                         <outlet property="slider" destination="uSp-Od-4EM" id="5hB-Ry-NXp"/>

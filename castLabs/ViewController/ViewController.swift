@@ -7,6 +7,12 @@
 
 import UIKit
 import AVFoundation
+import MediaPlayer
+
+enum PickerViewType: Int {
+    case audio
+    case subtitle
+}
 
 class ViewController: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
@@ -14,16 +20,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var audioButton: UIButton!
     @IBOutlet weak var subtitleButton: UIButton!
-    @IBOutlet weak var playerView: AVPlayerView!
+    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var playerView: AVPlayerView!    
     var avPlayer: AVPlayer? = nil
     var playerItemContext: UnsafeMutableRawPointer? = nil
-    var dragging = false
+    var isDragging = false
+    var pickerItems: [AVMediaSelectionOption] = [];
     
     override func viewDidLoad() {
         super.viewDidLoad()
         disableControls()
-        prepareToPlay()        
         slider.addTarget(self, action: #selector(sliderValueChanged(slider:event:)), for: .valueChanged)
+        prepareToPlay()
     }
     
     @IBAction func playButton(sender: UIButton) {
@@ -38,16 +46,25 @@ class ViewController: UIViewController {
     }
     
     @IBAction func audioButton(sender: UIButton) {
-        
+        if false == pickerView.isHidden,
+           .audio == PickerViewType(rawValue: pickerView.tag) {
+            pickerView.isHidden = true
+            return
+        }
+        displayPickerView(ofType: .audio)
     }
     
     @IBAction func subtitleButton(sender: UIButton) {
-        
+        if false == pickerView.isHidden,
+           .subtitle == PickerViewType(rawValue: pickerView.tag) {
+            pickerView.isHidden = true
+            return
+        }
+        displayPickerView(ofType: .subtitle)
     }
-    
-
 }
 
+// MARK:- Play
 extension ViewController {
     func prepareToPlay() {
         let asset = AVAsset(url: Contents.video)
@@ -77,7 +94,6 @@ extension ViewController {
                                of object: Any?,
                                change: [NSKeyValueChangeKey : Any]?,
                                context: UnsafeMutableRawPointer?) {
-        // Only handle observations for the playerItemContext
         guard context == &playerItemContext else {
             super.observeValue(forKeyPath: keyPath,
                                of: object,
@@ -97,7 +113,7 @@ extension ViewController {
             switch status {
             case .readyToPlay:
                 enableControls()
-                slider.maximumValue = Float(CMTimeGetSeconds(avPlayer?.currentItem?.duration ?? CMTime(seconds: 0, preferredTimescale: 1)))
+                initSlider()
             case .failed, .unknown:
                 fallthrough
             @unknown default:
@@ -105,7 +121,10 @@ extension ViewController {
             }
         }
     }
+}
     
+// MARK:- UI controls
+extension ViewController {
     func enableControls() {
         slider.isEnabled = true
         playButton.isEnabled = true
@@ -123,21 +142,26 @@ extension ViewController {
     func updateProgressTime(_ time: CMTime) {
         let sec = CMTimeGetSeconds(time)
         timeLabel.text = NSString(format: "%02d:%02d", Int(sec) / 60, Int(sec) % 60) as String
-        if !dragging {
+        if !isDragging {
             slider.value = Float(sec)
         }
+    }
+    
+    func initSlider() {
+        slider.value = 0.0
+        slider.maximumValue = Float(CMTimeGetSeconds(avPlayer?.currentItem?.duration ?? CMTime(seconds: 0, preferredTimescale: 1)))
     }
     
     @objc func sliderValueChanged(slider: UISlider, event: UIEvent) {
         if let touchEvent = event.allTouches?.first {
             switch touchEvent.phase {
             case .began:
-                dragging = true
+                isDragging = true
             case .moved:
                 return
             case .ended:
                 seekVideo() { [weak self] in
-                    self?.dragging = false
+                    self?.isDragging = false
                 }
             default:
                 break
@@ -149,11 +173,71 @@ extension ViewController {
         guard let avPlayer = avPlayer else { return }
         let seconds = Int64(self.slider.value)
         let targetTime: CMTime = CMTimeMake(value: seconds, timescale: 1)
-        avPlayer.pause()
-        avPlayer.seek(to: targetTime, completionHandler: { [weak self] result in
-            guard let avPlayer = self?.avPlayer else { return }
-            avPlayer.play()
+        avPlayer.seek(to: targetTime, completionHandler: { _ in
             completion()
         })
+    }
+    
+    func displayPickerView(ofType type: PickerViewType) {
+        switch type {
+        case .audio:
+            if let asset = avPlayer?.currentItem?.asset,
+               let group = asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.audible) {
+                pickerItems = group.options
+                pickerView.reloadAllComponents()
+                pickerView.tag = type.rawValue
+                pickerView.isHidden = false
+            }
+        case .subtitle:
+            if let asset = avPlayer?.currentItem?.asset,
+               let group = asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) {
+                pickerItems = group.options
+                pickerView.reloadAllComponents()
+                pickerView.tag = type.rawValue
+                pickerView.isHidden = false
+            }
+        }
+    }
+}
+
+// MARK:- UIPickerViewDataSource
+extension ViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerItems.count
+    }
+}
+
+// MARK:- UIPickerViewDelegate
+extension ViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerItems[row].displayName
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        pickerView.isHidden = true
+        guard let currentItem = avPlayer?.currentItem else {
+            return
+        }
+        
+        switch PickerViewType(rawValue: pickerView.tag) {
+        case .audio:
+            guard let group = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.audible) else {
+                return
+            }
+            let option = pickerItems[row]
+            currentItem.select(option, in: group)
+        case .subtitle:
+            guard let group = currentItem.asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible) else {
+                return
+            }
+            let option = pickerItems[row]
+            currentItem.select(option, in: group)
+        case .none:
+            break
+        }
     }
 }
