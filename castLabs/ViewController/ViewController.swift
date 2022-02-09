@@ -148,7 +148,6 @@ extension ViewController {
     }
     
     func initSlider() {
-        slider.value = 0.0
         slider.maximumValue = Float(CMTimeGetSeconds(avPlayer?.currentItem?.duration ?? CMTime(seconds: 0, preferredTimescale: 1)))
     }
     
