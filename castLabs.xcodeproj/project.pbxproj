@@ -15,6 +15,9 @@
 		74400C9E27B2E06E0032678E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74400C9C27B2E06E0032678E /* LaunchScreen.storyboard */; };
 		74400CA927B2E06E0032678E /* castLabsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74400CA827B2E06E0032678E /* castLabsTests.swift */; };
 		74400CB427B2E06E0032678E /* castLabsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74400CB327B2E06E0032678E /* castLabsUITests.swift */; };
+		74400CC327B2E42B0032678E /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74400CC227B2E42B0032678E /* Constant.swift */; };
+		74400CC827B2EE9D0032678E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74400CC727B2EE9D0032678E /* AVFoundation.framework */; };
+		74400CCB27B2F2340032678E /* AVPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74400CCA27B2F2340032678E /* AVPlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		74400CAF27B2E06E0032678E /* castLabsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = castLabsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74400CB327B2E06E0032678E /* castLabsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = castLabsUITests.swift; sourceTree = "<group>"; };
 		74400CB527B2E06E0032678E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		74400CC227B2E42B0032678E /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		74400CC727B2EE9D0032678E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		74400CCA27B2F2340032678E /* AVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74400CC827B2EE9D0032678E /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +90,7 @@
 				74400CA727B2E06E0032678E /* castLabsTests */,
 				74400CB227B2E06E0032678E /* castLabsUITests */,
 				74400C8F27B2E06D0032678E /* Products */,
+				74400CC627B2EE9D0032678E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,7 +109,9 @@
 			children = (
 				74400C9127B2E06D0032678E /* AppDelegate.swift */,
 				74400C9327B2E06D0032678E /* SceneDelegate.swift */,
-				74400C9527B2E06D0032678E /* ViewController.swift */,
+				74400CC227B2E42B0032678E /* Constant.swift */,
+				74400CC127B2E4180032678E /* ViewController */,
+				74400CC927B2F21C0032678E /* View */,
 				74400C9727B2E06D0032678E /* Main.storyboard */,
 				74400C9A27B2E06E0032678E /* Assets.xcassets */,
 				74400C9C27B2E06E0032678E /* LaunchScreen.storyboard */,
@@ -126,6 +136,30 @@
 				74400CB527B2E06E0032678E /* Info.plist */,
 			);
 			path = castLabsUITests;
+			sourceTree = "<group>";
+		};
+		74400CC127B2E4180032678E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				74400C9527B2E06D0032678E /* ViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		74400CC627B2EE9D0032678E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				74400CC727B2EE9D0032678E /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		74400CC927B2F21C0032678E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				74400CCA27B2F2340032678E /* AVPlayerView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +295,8 @@
 				74400C9627B2E06D0032678E /* ViewController.swift in Sources */,
 				74400C9227B2E06D0032678E /* AppDelegate.swift in Sources */,
 				74400C9427B2E06D0032678E /* SceneDelegate.swift in Sources */,
+				74400CC327B2E42B0032678E /* Constant.swift in Sources */,
+				74400CCB27B2F2340032678E /* AVPlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
